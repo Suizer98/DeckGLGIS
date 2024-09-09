@@ -1,3 +1,0 @@
-[submodule "volume_api"]
-	path = volume_api
-	url = https://gitlab.com/suizer98/volume_api_app.git
