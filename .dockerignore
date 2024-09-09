@@ -1,0 +1,11 @@
+node_modules/
+dist/
+coverage/
+junit/
+.git/
+.git
+
+test-results/
+playwright-report/
+playwright/.cache/
+demo.gif

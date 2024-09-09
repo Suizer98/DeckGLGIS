@@ -1,0 +1,35 @@
+/* App.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html,
+body,
+#root {
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
+.relative {
+  position: relative;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
+}
+
+#sidebar {
+  max-height: 100vh;
+}

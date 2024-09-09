@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  deckglgis:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    command: npm run dev
+    volumes:
+      - .env.local:/usr/local/app/.env.local:ro
+      - ./:/usr/local/app
+      - /usr/local/app/node_modules
+    ports:
+      - '3000:3000'
+
+  volume_api:
+    build:
+      context: ./volume_api
+      dockerfile: Dockerfile
+    command: ./entrypoint.sh
+    volumes:
+      - ./volume_api:/app
+    ports:
+      - '8000:8000'
+    environment:
+      - DEBUG=True
+    depends_on:
+      - postgres
+    env_file:
+      - ./volume_api/.env # use backend's .env
+    profiles:
+      - full
+
+  geoserver:
+    build:
+      context: ./volume_api/docker-geoserver
+      dockerfile: ./Dockerfile
+      args:
+        INSTALL_EXTENSIONS: true
+        STABLE_EXTENSIONS: wps,csw
+        EXTRA_JAVA_OPTS: -Xms1G -Xmx2G
+        POSTGRES_JNDI_ENABLED: false
+        POSTGRES_HOST: $POSTGRES_SERVER
+        POSTGRES_PORT: 5432
+        POSTGRES_DB: geoserver
+        POSTGRES_USERNAME: $GEOSERVER_PSQL_USER
+        POSTGRES_PASSWORD: $GEOSERVER_PSQL_PASSWORD
+        PROXY_BASE_URL: http://localhost:8080/$GEOSERVER_URL_SUFFIX/
+    volumes:
+      - ./volume_api/Data/uploaded-data:/mnt/shared-data/uploaded-data:rw
+      - ./volume_api/geoserver-datadir:/var/geoserver/datadir
+    expose:
+      - '8080'
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    env_file:
+      - ./volume_api/.env
+    profiles:
+      - full
+
+  postgres:
+    image: postgis/postgis:14-3.3
+    healthcheck:
+      test: /usr/bin/pg_isready -U postgres
+      interval: 5s
+      timeout: 10s
+      retries: 120
+    expose:
+      - '5432'
+    volumes:
+      - ./volume_api/postgres/01-init-user.sh:/docker-entrypoint-initdb.d/01-init-user.sh
+    env_file:
+      - ./volume_api/.env
+    profiles:
+      - full

@@ -1,0 +1,7 @@
+node_modules
+dist
+.git
+src/config/index.ts
+src/mocks/dms.tsx
+src/api/
+volume_api
