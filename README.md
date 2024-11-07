@@ -2,6 +2,8 @@
 
 A project to show POC of volume computation happening in ReactTS + DeckGL Web app for CrystallBall company. Backend is comprise of Django + Geoserver + Postgres.
 
+Demo GIF here:
+
 ![Demo](demo.gif)
 
 Frontend:
