@@ -1,6 +1,6 @@
 # DeckGLGIS
 
-A project to show POC of volume computation happening in ReactTS + DeckGL Web app for CrystallBall company. Backend is comprise of Django + Geoserver + Postgres.
+A project to show POC of 3D open pit mine model's volume computation in ReactTS + DeckGL Web app for CrystallBall company. Backend is comprise of Django + Geoserver + Postgres.
 
 Demo GIF here:
 
